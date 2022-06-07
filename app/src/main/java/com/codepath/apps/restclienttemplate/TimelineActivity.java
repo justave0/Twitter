@@ -31,7 +31,6 @@ public class TimelineActivity extends AppCompatActivity {
     RecyclerView rvTweets;
     List<Tweet> tweets;
     TweetsAdapter adapter;
-    Button btLogout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +59,8 @@ public class TimelineActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.compose){
-            Toast.makeText(this, "Compose Tweet!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, ComposeActivity.class);
+            startActivity(intent);
         }
         return true;
     }
@@ -86,12 +86,8 @@ public class TimelineActivity extends AppCompatActivity {
             }
         });
     }
-    public void accountLogout(View view) {
-        onLogoutButton();
 
-    }
-
-    void onLogoutButton() {
+    public void onLogoutButton(View view) {
         // forget who's logged in
         client.clearAccessToken();
 
