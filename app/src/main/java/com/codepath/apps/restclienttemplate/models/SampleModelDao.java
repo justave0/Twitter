@@ -8,7 +8,8 @@ import androidx.room.Query;
 import java.util.List;
 
 @Dao
-public interface SampleModelDao {
+public interface
+SampleModelDao {
 
     // @Query annotation requires knowing SQL syntax
     // See http://www.sqltutorial.org/

@@ -40,6 +40,9 @@ android {
         }
     }
 }
+ext {
+    roomVersion = "2.1.0"
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: '*.jar')
@@ -58,4 +61,6 @@ dependencies {
     implementation 'com.facebook.stetho:stetho:1.5.1'
     implementation 'org.parceler:parceler-api:1.1.12'
     annotationProcessor 'org.parceler:parceler:1.1.12'
+    implementation "androidx.room:room-runtime:$roomVersion"
+    annotationProcessor "androidx.room:room-compiler:$roomVersion"
 }
