@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 2,
-    "identityHash": "77e31b28a9d64e7050409791fcf1a4d8",
+    "version": 4,
+    "identityHash": "8fb0017f943138800b97eccb4c35f93f",
     "entities": [
       {
         "tableName": "SampleModel",
@@ -32,7 +32,7 @@
       },
       {
         "tableName": "Tweet",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `body` TEXT, `createdAt` TEXT, `mediaHTTPS` TEXT, `userId` INTEGER NOT NULL, `tweetTime` TEXT, PRIMARY KEY(`id`), FOREIGN KEY(`userId`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `body` TEXT, `createdAt` TEXT, `mediaHTTPS` TEXT, `userId` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`userId`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -63,12 +63,6 @@
             "columnName": "userId",
             "affinity": "INTEGER",
             "notNull": true
-          },
-          {
-            "fieldPath": "tweetTime",
-            "columnName": "tweetTime",
-            "affinity": "TEXT",
-            "notNull": false
           }
         ],
         "primaryKey": {
@@ -134,7 +128,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '77e31b28a9d64e7050409791fcf1a4d8')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8fb0017f943138800b97eccb4c35f93f')"
     ]
   }
 }

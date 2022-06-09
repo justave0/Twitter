@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvBody;
         TextView tvScreenName;
         ImageView ivTweetMedia;
+        TextView tvTweetTime;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -56,6 +58,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvBody = itemView.findViewById(R.id.tvBody);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             ivTweetMedia = itemView.findViewById(R.id.ivTweetMedia);
+            tvTweetTime = itemView.findViewById(R.id.tvTweetTime);
         }
 
         public void bind(Tweet tweet) {
@@ -63,6 +66,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName.setText(tweet.user.screenName);
             Glide.with(context).load(tweet.user.profileImageURL).into(ivProfileImage);
             Glide.with(context).load(tweet.mediaHTTPS).into(ivTweetMedia);
+
+            tvTweetTime.setText(tweet.createdAt);
         }
     }
 
