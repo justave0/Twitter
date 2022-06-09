@@ -47,6 +47,7 @@ public class TimelineActivity extends AppCompatActivity {
     TweetsAdapter adapter;
     private SwipeRefreshLayout swipeContainer;
     TweetDao tweetDao;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +60,12 @@ public class TimelineActivity extends AppCompatActivity {
 
         tweets = new ArrayList<>();
         adapter = new TweetsAdapter(this, tweets);
-        rvTweets.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rvTweets.setLayoutManager(linearLayoutManager);
         rvTweets.setAdapter(adapter);
+
+        fetchTimelineAsync(0);
+
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -86,6 +91,20 @@ public class TimelineActivity extends AppCompatActivity {
                 adapter.addAll(tweetsFromDB);
             }
         });
+
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                Tweet lastTweet = tweets.get(tweets.size()-1);
+
+
+                Log.i(TAG, String.valueOf(lastTweet.id));
+                loadNextDataFromApi(lastTweet.id);
+            }
+        };
+        rvTweets.addOnScrollListener(scrollListener);
 
         populateHomeTimeline();
     }
@@ -180,6 +199,37 @@ public class TimelineActivity extends AppCompatActivity {
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // this makes sure the Back button won't work
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // same as above
         startActivity(i);
+
+    }
+    // Append the next page of data into the adapter
+    // This method probably sends out a network request and appends new data items to your adapter.
+    public void loadNextDataFromApi(long offset) {
+        // Send an API request to retrieve appropriate paginated data
+        //  --> Send the request including an offset value (i.e `page`) as a query parameter.
+        //  --> Deserialize and construct new model objects from the API response
+        //  --> Append the new data objects to the existing set of items inside the array of items
+        //  --> Notify the adapter of the new items made with `notifyItemRangeInserted()`
+        client.addMoreTimeline(offset, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.i(TAG, "onSuccess " + json.toString());
+                JSONArray jsonArray = json.jsonArray;
+                try {
+                    List<Tweet> tweetsFromNetwork = Tweet.fromJsonArray(jsonArray);
+                    tweets.addAll(tweetsFromNetwork);
+                    adapter.notifyDataSetChanged();
+                    swipeContainer.setRefreshing(false);
+                } catch (JSONException e) {
+                    Log.e(TAG, "JSONException", e);
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.e(TAG, "onFailure" + response, throwable);
+            }
+        });
 
     }
 
