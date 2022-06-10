@@ -33,7 +33,7 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
-        app:layout_constraintTop_toBottomOf="@+id/tvScreenName"
+        app:layout_constraintTop_toBottomOf="@+id/tvReplyName"
         tools:text="Here is a cool tweet" />
 
     <ImageView
@@ -59,11 +59,24 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/ivReply"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
+        app:layout_constraintTop_toBottomOf="@+id/ivTweetMedia"
+        app:srcCompat="@android:drawable/ic_menu_set_as" />
+
+    <TextView
+        android:id="@+id/tvReplyName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_set_as"
-        tools:layout_editor_absoluteX="77dp"
-        tools:layout_editor_absoluteY="179dp" />
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="3dp"
+        android:text="TextView"
+        android:visibility="visible"
+        app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvScreenName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

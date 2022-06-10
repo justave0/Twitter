@@ -38,7 +38,18 @@ public class Tweet {
     public String mediaHTTPS;
     @ColumnInfo
     public long userId;
-    // Maybe add column info TEST LATER
+    @ColumnInfo
+    public Boolean favorited;
+    @ColumnInfo
+    public int favoriteCount;
+    @ColumnInfo
+    public Boolean retweeted;
+    @ColumnInfo
+    public int retweetCount;
+    @ColumnInfo
+    public long replyId;
+    @ColumnInfo
+    public String replyUserName;
 
     @Ignore
     public User user;
@@ -54,12 +65,17 @@ public class Tweet {
 
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
-        tweet.body = jsonObject.getString("text");
+        if (jsonObject.getBoolean("truncated")) {
+            tweet.body = jsonObject.getString("full_text");
+        }
+        else{
+            tweet.body = jsonObject.getString("full_text");
+        }
 
-        //try {
-            //tweet.body = tweet.body.substring(0,tweet.body.indexOf("https://t.co/"));
-        //}
-        //catch(StringIndexOutOfBoundsException e){}
+        try {
+            tweet.body = tweet.body.substring(0,tweet.body.indexOf("https://t.co/"));
+        }
+        catch(StringIndexOutOfBoundsException e){}
 
         tweet.createdAt = tweet.getRelativeTimeAgo(jsonObject.getString("created_at"));
 
@@ -67,6 +83,13 @@ public class Tweet {
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
 
         tweet.userId = tweet.user.id;
+        tweet.favorited = jsonObject.getBoolean("favorited");
+        tweet.favoriteCount = jsonObject.getInt("favorite_count");
+        tweet.retweeted = jsonObject.getBoolean("retweeted");
+
+
+        tweet.replyUserName = (jsonObject.getString("in_reply_to_screen_name"));
+
         JSONObject entities = jsonObject.getJSONObject("entities");
         try {
             JSONArray media = entities.getJSONArray("media");
@@ -75,6 +98,11 @@ public class Tweet {
         catch (JSONException jsonException){
 
         }
+        try{
+            tweet.retweetCount = jsonObject.getInt("retweet_count");
+            tweet.replyId = jsonObject.getLong("in_reply_to_status_id");
+        }
+        catch (JSONException jsonException){}
 
         return tweet;
     }
