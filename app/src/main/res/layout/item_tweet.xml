@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
+        android:gravity="clip_horizontal|fill_vertical"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
@@ -56,4 +57,13 @@
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/tvScreenName"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_set_as"
+        tools:layout_editor_absoluteX="77dp"
+        tools:layout_editor_absoluteY="179dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

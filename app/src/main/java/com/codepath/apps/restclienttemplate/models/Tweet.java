@@ -56,11 +56,10 @@ public class Tweet {
         Tweet tweet = new Tweet();
         tweet.body = jsonObject.getString("text");
 
-        try {
-            tweet.body = tweet.body.substring(0,tweet.body.indexOf("https://t.co/"));
-        }
-        catch(StringIndexOutOfBoundsException e){}
-        tweet.body.replaceAll("\\s+","");
+        //try {
+            //tweet.body = tweet.body.substring(0,tweet.body.indexOf("https://t.co/"));
+        //}
+        //catch(StringIndexOutOfBoundsException e){}
 
         tweet.createdAt = tweet.getRelativeTimeAgo(jsonObject.getString("created_at"));
 
